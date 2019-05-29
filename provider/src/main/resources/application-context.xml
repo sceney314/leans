@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	    http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+    <!-- 初始化配置 -->
+    <context:component-scan base-package="com.lean.www"/>
+
+    <!-- 配置使Spring采用CGLIB代理 --><!-- 开启基于@AspectJ切面的注解处理器 -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:config.properties</value>
+            </list>
+        </property>
+    </bean>
+    <!--<import resource="applicationContextConfig.xml"/>-->
+    <!--数据库配置-->
+    <import resource="classpath*:applicationContext-dao.xml"/>
+    <!--mq配置-->
+    <!--<import resource="classpath*:rocketmq.xml"/>-->
+    <!--elastic job 配置-->
+    <!--<import resource="classpath*:job.xml"/>-->
+    <!--dubbo 配置-->
+    <!--<import resource="classpath*:dubbo-setting.xml"/>-->
+    <!--dubbo消费者配置-->
+    <!--<import resource="classpath*:dubbo-consumer.xml"/>-->
+    <!--dubbo生产者配置-->
+    <!--<import resource="classpath*:dubbo-provider.xml"/>-->
+
+
+    <!-- 配置使Spring采用CGLIB代理 --><!-- 开启基于@AspectJ切面的注解处理器 -->
+    <!--<aop:aspectj-autoproxy proxy-target-class="true"/>-->
+</beans>

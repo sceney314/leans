@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lean.www.dispatcher.dao.GroupDao">
+    <resultMap id="BaseResultMap" type="com.lean.www.dispatcher.model.Group">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="group_id" jdbcType="VARCHAR" property="groupId" />
+        <result column="group_name" jdbcType="VARCHAR" property="groupName" />
+        <result column="group_desc" jdbcType="VARCHAR" property="groupDesc" />
+        <result column="is_del" jdbcType="VARCHAR" property="isDel" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, group_id, group_name, group_desc, is_del, create_time, update_time
+    </sql>
+
+    <select id="getById" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List"/> FROM `group` WHERE id=#{id}
+    </select>
+</mapper>

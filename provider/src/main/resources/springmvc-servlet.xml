@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Bean头部 -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+    <!-- springmvc默认配置文件 -->
+
+    <!-- 激活@Controller模式 -->
+    <!-- 让Springmvc加载容器中的action -->
+    <!-- 激活基于注解的配置 @RequestMapping, @ExceptionHandler,数据绑定 ,@NumberFormat ,
+    @DateTimeFormat ,@Controller ,@Valid ,@RequestBody ,@ResponseBody等  -->
+    <mvc:annotation-driven />
+    <!-- springmvc设置拦截的是/
+     因此所有的资源都被拦截，导致图片无法展示
+     要将将除控制层以外的资源都交给servlet处理
+     （ 设置默认的资源都由servlet自己处理）
+    -->
+    <mvc:default-servlet-handler/>
+
+    <!-- 扫描路径 -->
+    <!-- 对包中的所有类进行扫描，以完成Bean创建和自动依赖注入的功能 需要更改 -->
+    <context:component-scan base-package="com.lean.www.provider.controller" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <mvc:annotation-driven>
+        <!--设置不使用默认的消息转换器-->
+        <mvc:message-converters register-defaults="false">
+            <!--配置spring的转换器-->
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter" />
+            <bean class="org.springframework.http.converter.support.AllEncompassingFormHttpMessageConverter" />
+            <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
+            <bean class="org.springframework.http.converter.BufferedImageHttpMessageConverter" />
+            <!--配置fastjson中实现HttpMessageConverter接口的转换器-->
+            <bean id="fastJsonHttpMessageConverter" class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter" >
+                <!--加入支持的媒体类型，返回contentType-->
+                <property name="supportedMediaTypes">
+                    <list>
+                        <!--这里顺序不能反，一定要先写text/html，不然IE下会出现下载提示-->
+                        <value>text/html;charset=UTF-8</value>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!-- 视图层配置， 使用 jsp 才用到 -->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+        <property name="prefix"><value>/WEB-INF/jsp/</value></property>
+        <property name="suffix"><value>.jsp</value></property>
+    </bean>
+
+    <!--拦截器-->
+    <!--<mvc:interceptors>-->
+        <!--&lt;!&ndash;controller拦截器&ndash;&gt;-->
+        <!--<mvc:interceptor>-->
+            <!--<mvc:mapping path="/api/**"/>-->
+            <!--<mvc:exclude-mapping path="/api/opuse/*"/>-->
+            <!--<mvc:exclude-mapping path="/api/flush/*"/>-->
+            <!--<bean class="com.plg.dhconf.provider.interceptor.UserInterceptor"/>-->
+        <!--</mvc:interceptor>-->
+    <!--</mvc:interceptors>-->
+
+    <!--<bean id="exceptionInterceptor" class="com.plg.base.common.handler.CustomExceptionHandler"/>-->
+    <!--<aop:config>-->
+    <!--&lt;!&ndash;切入点&ndash;&gt;-->
+    <!--<aop:pointcut id="cPointCut" expression="execution(public * com.plg.dhconf.web.controller..*.*(..))"/>-->
+    <!--&lt;!&ndash; 在该切入点使用自定义拦截器 &ndash;&gt;-->
+    <!--<aop:advisor pointcut-ref="cPointCut" advice-ref="exceptionInterceptor"/>-->
+    <!--</aop:config>-->
+
+</beans>

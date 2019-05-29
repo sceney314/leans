@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lean.www.dispatcher.dao.UserDao">
+    <resultMap id="BaseResultMap" type="com.lean.www.dispatcher.model.User">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="user_id" jdbcType="VARCHAR" property="userId" />
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="user_nick" jdbcType="VARCHAR" property="userNick" />
+        <result column="head_img" jdbcType="VARCHAR" property="headImg" />
+        <result column="wechat_status" jdbcType="TINYINT" property="wechatStatus" />
+        <result column="is_del" jdbcType="VARCHAR" property="isDel" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, user_id, user_name, user_nick, head_img, wechat_status, is_del, create_time,
+        update_time
+    </sql>
+</mapper>

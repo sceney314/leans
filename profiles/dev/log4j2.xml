@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="LOG_HOME">/data/logs/lean</Property>
+        <Property name="PATTERN_STYLE">
+            time[%d{yyyy-MM-dd HH:mm:ss.SSS}] uri[%X{mdc_uri}] thread[%t] level[%p] class[%c] method[%M] line[%L] appname[%appname] %msg%n
+        </Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="CONSOLE" target="SYSTEM_OUT">
+            <PatternLayout pattern="${PATTERN_STYLE}"/>
+        </Console>
+
+        <RollingFile name="FILE" fileName="${LOG_HOME}/lean.log" filePattern="${LOG_HOME}/lean.log.%d{yyyy-MM-dd}">
+            <PatternLayout charset="UTF-8" pattern="${PATTERN_STYLE}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="ERRORLOG" fileName="${LOG_HOME}/lean_error.log" filePattern="${LOG_HOME}/lean_error.log.%d{yyyy-MM-dd}">
+            <PatternLayout charset="UTF-8" pattern="${PATTERN_STYLE}"/>
+            <ThresholdFilter level="ERROR"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="org.springframework" includeLocation="true" level="TRACE"/>
+        <Logger name="java.sql.Connection" includeLocation="true" level="INFO"/>
+        <Logger name="java.sql.ResultSet" includeLocation="true" level="INFO"/>
+        <Logger name="com.alibaba.dubbo" includeLocation="true" level="TRACE"/>
+        <Logger name="org.apache.zookeeper" includeLocation="true" level="TRACE"/>
+        <Logger name="com.101tec" includeLocation="true" level="TRACE"/>
+
+        <Root level="TRACE" includeLocation="true">
+            <AppenderRef ref="FILE"/>
+            <AppenderRef ref="ERRORLOG"/>
+            <AppenderRef ref="CONSOLE"/>
+        </Root>
+    </Loggers>
+</Configuration>

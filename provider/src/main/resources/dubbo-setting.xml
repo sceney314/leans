@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+         http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:consumer filter="dubboTraceFilter" check="false" timeout="3000"/>
+    <dubbo:provider filter="dubboTraceFilter,dhConfFilter" threadpool="fixed" threads="500" timeout="5000"  accepts="5000"/>
+
+    <dubbo:application name="dhconf"/>
+
+    <!-- 使用zookeeper注册中心暴露服务地址 -->
+    <dubbo:registry protocol="zookeeper" address="${dubbo.reg.address}" register="true" check="true" client="curator">
+        <dubbo:parameter key="router" value="operator"/>
+        <dubbo:parameter key="runtime" value="true"/>
+    </dubbo:registry>
+
+    <dubbo:protocol name="dubbo" port="20880"/>
+    <!--<dubbo:monitor protocol="registry"/>-->
+
+</beans>
